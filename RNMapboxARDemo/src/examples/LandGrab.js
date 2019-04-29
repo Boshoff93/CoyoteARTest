@@ -24,12 +24,7 @@ class LandGrab extends React.Component {
 
     this.onPinch = this.onPinch.bind(this);
 
-    this.yosemite = this.yosemite.bind(this);
-    this.squaw = this.squaw.bind(this);
-    this.tahoe = this.tahoe.bind(this);
-    this.kauai = this.kauai.bind(this);
-    this.spa = this.spa.bind(this);
-    this.nurburgring = this.nurburgring.bind(this);
+    this.chicago = this.chicago.bind(this);
   }
 
   onPinch (pitchState, scaleFactor, source) {
@@ -44,40 +39,20 @@ class LandGrab extends React.Component {
     return (
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
         <ViroAmbientLight color='#ffffff' />
-
         <MapboxAR.Terrain
           draggable
           id='coolTerrain'
           sampleSize={3}
           scale={this.state.scale}
-          bbox={this.yosemite()} />
+          bbox={this.chicago()} />
       </ViroARScene>
     );
   }
 
-  yosemite () {
-    return [-119.667111,37.682308,-119.489696,37.786133];
+  chicago () {
+    return [-87.842349, 41.689229 , -87.542349, 42.089229]
   }
 
-  squaw () {
-    return [-120.298941,39.172602,-120.196572,39.222229];
-  }
-
-  tahoe () {
-    return [-120.229716,38.878172,-119.769107,39.286996];
-  }
-
-  kauai () {
-    return [-159.796592,21.85586,-159.283945,22.248503];
-  }
-
-  spa () {
-    return [5.954657,50.426648,5.981694,50.447548];
-  }
-
-  nurburgring () {
-    return [6.916266,50.322067,7.007493,50.382967];
-  }
 }
 
 export default LandGrab;
