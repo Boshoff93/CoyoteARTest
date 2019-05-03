@@ -7,6 +7,7 @@ import {
 } from 'react-viro';
 
 import MapboxAR from '@mapbox/react-native-mapbox-ar';
+import IconButton from `../../../javascript/components/IconButton`;
 
 const PITCH_STATE = {
   START: 1,
@@ -20,7 +21,10 @@ class LandGrab extends React.Component {
 
     this.state = {
       scale: 0.005,
+      text : "Initializing AR...",
     };
+
+    this._onInitialized = this.onInitialized.bind(this);
 
     this.onPinch = this.onPinch.bind(this);
 
@@ -35,15 +39,27 @@ class LandGrab extends React.Component {
     }
   }
 
+  onInitialized(state, reason) {
+    if (state == ViroConstants.TRACKING_NORMAL) {
+      this.setState({
+        text : "Hello World!!!!"
+      });
+    } else if (state == ViroConstants.TRACKING_NONE) {
+      // Handle loss of tracking
+    }
+  }
+
   render () {
     return (
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
         <ViroAmbientLight color='#ffffff' />
+        <IconButton text={this.state.text} position={{x: 0, y:0, z: -3}} rotation={{y: 0}}/>
         <MapboxAR.Terrain
-          draggable
+          draggable={true}
           id='coolTerrain'
           sampleSize={3}
           scale={this.state.scale}
+          position={[0, -1, ,3]}
           bbox={this.chicago()} />
       </ViroARScene>
     );

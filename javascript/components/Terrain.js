@@ -24,7 +24,7 @@ import {
 } from 'react-viro';
 
 const MapboxAR = NativeModules.MapboxARModule;
-const MapboxARTerrain = NativeModules.MapboxARTerrainModule;
+const MapboxARTerrain = NativeModules.MapboxARTerrainnModule;
 
 const DOUBLE_THRESHOLD = 640;
 const CORNER_TILE_ZOOM = 22;
@@ -136,6 +136,9 @@ class Terrain extends React.Component {
       nwPolygon.geometry.coordinates[0][0], // nw
     ];
 
+    //Get middle coordinated
+    //Make point just like below
+
     const cornerTiles = corners.map((corner) => {
       return cover.tiles(makePoint(corner).geometry, {
         min_zoom: CORNER_TILE_ZOOM,
@@ -181,6 +184,7 @@ class Terrain extends React.Component {
     const width = Math.abs(lowerRight[0] - upperLeft[0]);
 
     const tilesToLoad = tiles.map((tile, index) => {
+      console.log("Logging", tile);
       return {
         url: `${BASE_RGB_TILE_URI}/${tile[2]}/${tile[0]}/${tile[1]}.pngraw?access_token={ACCESS_TOKEN}`,
         px: (tile[0] - upperLeftTile[0]) * TILE_SIZE - offsets[0],
@@ -255,6 +259,14 @@ class Terrain extends React.Component {
   }
 
   _convertBboxToNWPolygon () {
+
+    /*
+    * pass in lat long and generate the bbox around it
+    * return 
+    */
+
+
+
     // turf calculates bbox polygons as [sw, se, ne, nw, sw]
     const swPolygon = makeBboxPolygon(this.props.bbox);
     const sw = swPolygon.geometry.coordinates[0][0];
@@ -314,10 +326,12 @@ class Terrain extends React.Component {
       return null;
     }
 
+    const { positionMap } = this.props;
+
     const nodeProps = {
       dragType: this.props.draggable ? 'FixedToWorld' : undefined,
       rotation: [0, 0, 0],
-      position: [0,0,0]
+      position: [position[0],position[1],position[2]]
     };
 
     return (
