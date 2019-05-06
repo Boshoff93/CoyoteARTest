@@ -329,7 +329,7 @@ class Terrain extends React.Component {
     const nodeProps = {
       dragType: this.props.draggable ? 'FixedToWorld' : undefined,
       rotation: [0, 0, 0],
-      position: [0, -0.5, -0.5]
+      position: [0, -0.25, -0.25]
     };
 
     return (

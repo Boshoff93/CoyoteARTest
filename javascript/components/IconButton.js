@@ -70,7 +70,7 @@ export default class IconButton extends Component {
             onClick={this.onPress} 
             source={require('../../imageObjects/truck/model.obj')}
             position={[this.props.position.x, this.props.position.y, this.props.position.z]}
-            scale={[.05,.05,.05]}
+            scale={[.125,.125,.125]}
             resources={[require('../../imageObjects/truck/materials.mtl')]}
             materials={["nissan"]}
             type="OBJ" 
@@ -78,18 +78,18 @@ export default class IconButton extends Component {
             onLoadStart={this._onLoadStart}
             onLoadEnd={this._onLoadEnd}
             onError={this._onError}/>
-            <ViroFlexView style={{flexDirection: 'column'}}  rotation={[0, this.props.rotation.y, 0]} width={1} height={1} position={[this.props.position.x, 1.25, this.props.position.z]} backgroundColor='black'  visible={this.state.visible}>
+            <ViroFlexView style={{flexDirection: 'column'}}  rotation={[0, this.props.rotation.y, 0]} width={0.125} height={0.125} position={[this.props.position.x, this.props.position.y + 0.1, this.props.position.z]} backgroundColor='black'  visible={this.state.visible}>
               <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorRed}>
                 <ViroText 
                     text={this.props.text} 
-                    scale={[.5, .5, .5]} 
+                    scale={[.05, .05, .05]} 
                     style={[styles.helloWorldTextStyle, setColor]} 
                     /> 
               </ViroFlexView> 
               <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorBlack}>
               <ViroText 
                   text={this.props.text} 
-                  scale={[.5, .5, .5]} 
+                  scale={[.05, .05, .05]} 
                   style={[styles.helloWorldTextStyle, setColor]} 
                   />
               </ViroFlexView>   
