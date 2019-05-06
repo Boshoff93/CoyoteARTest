@@ -69,7 +69,7 @@ export default class IconButton extends Component {
         <Viro3DObject  
             onClick={this.onPress} 
             source={require('../../imageObjects/truck/model.obj')}
-            position={[this.props.position.x, 0, this.props.position.z]}
+            position={[this.props.position.x, this.props.position.y, this.props.position.z]}
             scale={[.05,.05,.05]}
             resources={[require('../../imageObjects/truck/materials.mtl')]}
             materials={["nissan"]}

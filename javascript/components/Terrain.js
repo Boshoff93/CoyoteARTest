@@ -24,7 +24,7 @@ import {
 } from 'react-viro';
 
 const MapboxAR = NativeModules.MapboxARModule;
-const MapboxARTerrain = NativeModules.MapboxARTerrainnModule;
+const MapboxARTerrain = NativeModules.MapboxARTerrainModule;
 
 const DOUBLE_THRESHOLD = 640;
 const CORNER_TILE_ZOOM = 22;
@@ -326,12 +326,10 @@ class Terrain extends React.Component {
       return null;
     }
 
-    const { positionMap } = this.props;
-
     const nodeProps = {
       dragType: this.props.draggable ? 'FixedToWorld' : undefined,
       rotation: [0, 0, 0],
-      position: [position[0],position[1],position[2]]
+      position: [0, -0.5, -0.5]
     };
 
     return (

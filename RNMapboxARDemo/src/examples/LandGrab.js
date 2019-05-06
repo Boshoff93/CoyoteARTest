@@ -7,7 +7,7 @@ import {
 } from 'react-viro';
 
 import MapboxAR from '@mapbox/react-native-mapbox-ar';
-import IconButton from `../../../javascript/components/IconButton`;
+import IconButton from '../../../javascript/components/IconButton';
 
 const PITCH_STATE = {
   START: 1,
@@ -53,13 +53,12 @@ class LandGrab extends React.Component {
     return (
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
         <ViroAmbientLight color='#ffffff' />
-        <IconButton text={this.state.text} position={{x: 0, y:0, z: -3}} rotation={{y: 0}}/>
+        <IconButton text={this.state.text} position={{x: 0, y:-0.4, z: -0.5}} rotation={{y: 0}}/>
         <MapboxAR.Terrain
-          draggable={true}
+          draggable
           id='coolTerrain'
           sampleSize={3}
           scale={this.state.scale}
-          position={[0, -1, ,3]}
           bbox={this.chicago()} />
       </ViroARScene>
     );
