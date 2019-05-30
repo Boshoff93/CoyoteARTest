@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { View, Modal, FlatList, StyleSheet } from 'react-native';
+import { View, Modal, FlatList, StyleSheet, TextInput } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 import { ViroARSceneNavigator } from 'react-viro';
 
@@ -35,7 +35,7 @@ const Examples = [
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.75,
   },
   headerText: {
     color: 'white',
@@ -84,16 +84,18 @@ class App extends React.Component {
 
     return (
       <Modal visible={isVisible} style={styles.container} onRequestClose={this.onBack} animationType='slide'>
+        <View style={{position:'absolute', zIndex: 3, left:100, right:100, top:75,}}>
+          <TextInput style={{flex: 1, textAlign: 'center'}} />
+        </View>
         <Header
           leftComponent={leftNavComponent}
           centerComponent={{ text: activeExample && activeExample.label, style: styles.headerText }}
           style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
-
         {isVisible ? (
-          <ViroARSceneNavigator
-            style={styles.container}
-            initialScene={{ scene: activeExample.SceneComponent }}
-            apiKey={VIRO_API_KEY} />
+            <ViroARSceneNavigator
+              style={styles.container}
+              initialScene={{ scene: activeExample.SceneComponent }}
+              apiKey={VIRO_API_KEY} />
         ) : null}
       </Modal>
     );
