@@ -56,6 +56,22 @@ class LandGrab extends React.Component {
     return (
       
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
+        <ViroParticleEmitter
+          position={[0, 0.2, -0.2]}
+          duration={5000}
+          run={true}
+          
+          image={{
+            source:require("./snow.png"),                 
+            height:0.5,
+            width:0.5,
+          }}
+
+          particlePhysics={{
+            velocity:{
+            initialRange:[[-0.2,-0.16,0],  [0.2,-.16,0]]},
+          }}
+        />
         <ViroAmbientLight color='#d3d3d3' castsShadow={true} />
         <ViroDirectionalLight color="#ffffff"
                         direction={[0, -0.24, -0.25]}
