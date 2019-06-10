@@ -62,25 +62,25 @@ class LandGrab extends React.Component {
           run={true}
           
           image={{
-            source:require("./snow.png"),                 
+            source:require("./rain.png"),                 
             height:0.5,
             width:0.5,
           }}
 
           particlePhysics={{
             velocity:{
-            initialRange:[[-0.2,-0.16,0],  [0.2,-.16,0]]},
+            initialRange:[[-0.2,-0.1,0],  [0.2,-.1,0]]},
           }}
         />
         <ViroAmbientLight color='#d3d3d3' castsShadow={true} />
         <ViroDirectionalLight color="#ffffff"
-                        direction={[0, -0.24, -0.25]}
+                        direction={[0, -0.22, -0.25]}
                         shadowOrthographicPosition={[0, 3, -5]}
                         shadowOrthographicSize={10}
                         shadowNearZ={2}
                         shadowFarZ={9}
                         castsShadow={true} />
-        <IconButton type={'P'} text={this.state.text} position={{x: 0, y:-0.24, z: -0.25}} rotation={{y: 0}}/>
+        <IconButton type={'P'} text={this.state.text} position={{x: 0, y:-0.2, z: -0.25}} rotation={{y: 0}}/>
         <MapboxAR.Terrain
           draggable
           id='coolTerrain'
@@ -90,9 +90,14 @@ class LandGrab extends React.Component {
       </ViroARScene>
     );
   }
-
+  //[long, lat, long, lat]
+  // [sw, ne]
   chicago () {
-    return [-87.842349, 41.689229 , -87.542349, 42.089229]
+    return [-87.634978,41.874482, -87.617598,41.884451]
+  }
+
+  seattle () {
+    return [-122.332817,47.601179 , -122.310694,47.611841]
   }
   
 
