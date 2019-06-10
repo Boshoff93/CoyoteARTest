@@ -5,7 +5,8 @@ import {
   ViroAmbientLight,
   ViroDirectionalLight,
   ViroSurface,
-  ViroParticleEmitter
+  ViroParticleEmitter,
+  ViroNode
 } from 'react-viro';
 
 import MapboxAR from '@mapbox/react-native-mapbox-ar';
@@ -21,10 +22,11 @@ class LandGrab extends React.Component {
   constructor (props) {
     super(props);
 
+    console.log("props", this.props);
     this.state = {
       scale: 0.005,
-      text : "Initializing AR...",
-      text: 'City'
+      text: 'City',
+      locationType: 0
     };
 
     this._onInitialized = this.onInitialized.bind(this);
@@ -52,9 +54,20 @@ class LandGrab extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props){
+    console.log("Comeon!!!")
+    console.log(props);
+    
+    console.log(this.props);
+    this.setState({
+      locationType: props.arSceneNavigator.viroAppProps
+    })
+  }
+
   render () {
+    const snow = require("./snow.png")
+    const rain = require("./rain.png")
     return (
-      
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
         <ViroParticleEmitter
           position={[0, 0.2, -0.2]}
@@ -62,7 +75,7 @@ class LandGrab extends React.Component {
           run={true}
           
           image={{
-            source:require("./rain.png"),                 
+            source: this.state.locationType === 0 ? snow : rain,                 
             height:0.5,
             width:0.5,
           }}
@@ -80,15 +93,25 @@ class LandGrab extends React.Component {
                         shadowNearZ={2}
                         shadowFarZ={9}
                         castsShadow={true} />
-        <IconButton type={'P'} text={this.state.text} position={{x: 0, y:-0.2, z: -0.25}} rotation={{y: 0}}/>
-        <MapboxAR.Terrain
-          draggable
-          id='coolTerrain'
-          sampleSize={3}
-          scale={this.state.scale}
-          bbox={this.chicago()} />
+        <IconButton type={this.state.locationType === 0 ? 'P' : 'D'} text={this.state.text} position={{x: 0, y:-0.2, z: -0.25}} rotation={{y: 0}}/>
+        <ViroNode visible={this.state.locationType === 0 }>
+          <MapboxAR.Terrain
+            draggable
+            id='coolTerrain'
+            sampleSize={3}
+            scale={this.state.scale}
+            bbox={ this.chicago()}  />
+        </ViroNode>
+        <ViroNode visible={this.state.locationType === 1 }>
+          <MapboxAR.Terrain
+            draggable
+            id='coolTerrain'
+            sampleSize={3}
+            scale={this.state.scale}
+            bbox={ this.seattle()}  />
+        </ViroNode> 
       </ViroARScene>
-    );
+    )
   }
   //[long, lat, long, lat]
   // [sw, ne]

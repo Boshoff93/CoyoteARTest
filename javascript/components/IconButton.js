@@ -68,13 +68,19 @@ export default class IconButton extends Component {
          return {
            weight: 'Weight:34200_lbs',
            type: 'Type:Power_Only',
-           dh: 'Deadhead:100_Miles'
+           dh: 'Deadhead:100_Miles',
+           time: "Pickup_Date:06/14/2019_12:00-18:00"
          }
        }
+        return {
+          weight: 'Weight:34200_lbs',
+          type: 'Type:Power_Only',
+          dh: 'Deadhead:50_Miles',
+          time: 'Delivery_Date:06/14/2019_12:00-18:00'
+        }
      }
 
      render() {
-       console.log(this.props.position.y)
         const setColor = {color: this.state.color}
         const loadInfo = this.getType();
         return (
@@ -94,7 +100,7 @@ export default class IconButton extends Component {
           <ViroFlexView style={{flexDirection: 'column'}}  rotation={[0, this.props.rotation.y, 0]} width={0.125} height={0.125} position={[this.props.position.x, this.props.position.y + 0.1, this.props.position.z]} backgroundColor='black'  visible={this.state.visible}>
             <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorRed}>
               <ViroText 
-                  text={loadInfo.type} 
+                  text={loadInfo.time} 
                   scale={[.05, .05, .05]} 
                   style={[styles.helloWorldTextStyle, setColor]} 
                 /> 
@@ -112,7 +118,14 @@ export default class IconButton extends Component {
                 scale={[.05, .05, .05]} 
                 style={[styles.helloWorldTextStyle, setColor]} 
                 />
-            </ViroFlexView>   
+            </ViroFlexView>  
+            <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorBlack}>
+            <ViroText 
+                text={loadInfo.type} 
+                scale={[.05, .05, .05]} 
+                style={[styles.helloWorldTextStyle, setColor]} 
+                />
+            </ViroFlexView>  
           </ViroFlexView>
         </ViroNode>
         );

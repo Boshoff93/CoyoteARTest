@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { View, Modal, FlatList, StyleSheet, TextInput } from 'react-native';
+import { View, Modal, FlatList, StyleSheet, TextInput, Button } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 import { ViroARSceneNavigator } from 'react-viro';
 
@@ -50,10 +50,12 @@ class App extends React.Component {
 
     this.state = {
       activeExample: -1,
+      locationType: 0
     };
 
     this.renderItem = this.renderItem.bind(this);
     this.onBack = this.onBack.bind(this);
+    this.onPress = this.onPress.bind(this);
   }
 
   onBack () {
@@ -63,7 +65,14 @@ class App extends React.Component {
   onExamplePress (item, index) {
     this.setState({ activeExample: index });
   }
-
+  
+  onPress() {
+    this.setState({
+      locationType: this.state.locationType === 0 ? 1 : 0
+    }, () => {
+      console.log(this.state);
+    })
+  }
   renderItem ({ item, index }) {
     return (
       <ListItem
@@ -82,10 +91,12 @@ class App extends React.Component {
       onPress: this.onBack,
     };
 
+    const locationType = this.state.locationType;
+    console.log(locationType);
     return (
       <Modal visible={isVisible} style={styles.container} onRequestClose={this.onBack} animationType='slide'>
-        <View style={{position:'absolute', zIndex: 3, left:100, right:100, top:75,}}>
-          <TextInput style={{flex: 1, textAlign: 'center'}} />
+        <View style={{position:'absolute', zIndex: 3, left:75, right:75, top:75,}}>
+          <Button onPress={this.onPress} style={{flex: 1, textAlign: 'center'}} title={this.state.locationType === 0 ? "Chicago, IL (Pickup)" : "Seattle, WA (Delivery)"}/>
         </View>
         <Header
           leftComponent={leftNavComponent}
@@ -94,7 +105,8 @@ class App extends React.Component {
         {isVisible ? (
             <ViroARSceneNavigator
               style={styles.container}
-              initialScene={{ scene: activeExample.SceneComponent }}
+              initialScene={{ scene: activeExample.SceneComponent}}
+              viroAppProps={this.state.locationType}
               apiKey={VIRO_API_KEY} />
         ) : null}
       </Modal>
