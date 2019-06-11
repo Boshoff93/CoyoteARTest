@@ -15,6 +15,7 @@ import { ViroARSceneNavigator } from 'react-viro';
 import MapboxAR from '@mapbox/react-native-mapbox-ar';
 
 import LandGrab from './src/examples/LandGrab';
+import ImageRecognition from './src/examples/ImageRecognition';
 import tokens from './tokens.json';
 
 const VIRO_API_KEY = tokens.viro;
@@ -31,6 +32,7 @@ class ExampleItem {
 
 const Examples = [
   new ExampleItem('Land Grab', LandGrab),
+  new ExampleItem('Image Recognition', ImageRecognition)
 ];
 
 const styles = StyleSheet.create({
@@ -84,9 +86,9 @@ class App extends React.Component {
 
     return (
       <Modal visible={isVisible} style={styles.container} onRequestClose={this.onBack} animationType='slide'>
-        <View style={{position:'absolute', zIndex: 3, left:100, right:100, top:75,}}>
+        {/* <View style={{position:'absolute', zIndex: 3, left:100, right:100, top:75,}}>
           <TextInput style={{flex: 1, textAlign: 'center'}} />
-        </View>
+        </View> */}
         <Header
           leftComponent={leftNavComponent}
           centerComponent={{ text: activeExample && activeExample.label, style: styles.headerText }}
