@@ -88,10 +88,10 @@ export default class IconButton extends Component {
           <Viro3DObject 
               animation={{name:'loopRotate', run:true, loop:true}} 
               onClick={this.onPress} 
-              source={require('../../imageObjects/semiTruck/semi.obj')}
+              source={require('../../RNMapboxARDemo/src/Assests/semiTruck/semi.obj')}
               position={[this.props.position.x, this.props.position.y, this.props.position.z]}
               scale={[.002,.002,.002]}
-              resources={[require('../../imageObjects/semiTruck/semi.mtl')]}
+              resources={[require('../../RNMapboxARDemo/src/Assests/semiTruck/semimtl.mtl')]}
               type="OBJ" 
               rotation={[0, this.props.rotation.y, 0]}
               onLoadStart={this._onLoadStart}
