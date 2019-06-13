@@ -37,8 +37,6 @@ class LandGrab extends React.Component {
   }
 
   onPinch (pitchState, scaleFactor, source) {
-    console.log('PINCH');
-
     if (pitchState === PITCH_STATE.MOVE) {
       this.setState({ scale: scaleFactor });
     }
@@ -46,21 +44,17 @@ class LandGrab extends React.Component {
 
   onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({
-        text : "Hello World!!!!"
-      });
+
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
   }
 
   componentWillReceiveProps(props){
-    console.log("Comeon!!!")
-    console.log(props);
-    
-    console.log(this.props);
+    console.log("props",props);
     this.setState({
-      locationType: props.arSceneNavigator.viroAppProps
+      locationType: props.arSceneNavigator.viroAppProps[0],
+      weather: props.arSceneNavigator.viroAppProps[1]
     })
   }
 
@@ -69,7 +63,7 @@ class LandGrab extends React.Component {
     const rain = require("./rain.png")
     return (
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
-        <ViroParticleEmitter
+        {this.state.weather && <ViroParticleEmitter
           position={[0, 0.2, -0.2]}
           duration={5000}
           run={true}
@@ -85,6 +79,7 @@ class LandGrab extends React.Component {
             initialRange:[[-0.2,-0.1,0],  [0.2,-.1,0]]},
           }}
         />
+        }
         <ViroAmbientLight color='#d3d3d3' castsShadow={true} />
         <ViroDirectionalLight color="#ffffff"
                         direction={[0, -0.22, -0.25]}
@@ -93,7 +88,7 @@ class LandGrab extends React.Component {
                         shadowNearZ={2}
                         shadowFarZ={9}
                         castsShadow={true} />
-        <IconButton type={this.state.locationType === 0 ? 'P' : 'D'} text={this.state.text} position={{x: 0, y:-0.2, z: -0.25}} rotation={{y: 0}}/>
+        <IconButton type={this.state.locationType === 0 ? 'P' : 'D'} text={this.state.text} position={{x: 0, y:-0.2, z: -0.25}} rotation={{y: 0,}}/>
         <ViroNode visible={this.state.locationType === 0 }>
           <MapboxAR.Terrain
             draggable

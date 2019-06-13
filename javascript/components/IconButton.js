@@ -52,7 +52,7 @@ export default class IconButton extends Component {
         })
       }
 
-      _onLoadStart() {
+     _onLoadStart() {
         console.log("OBJ loading has started"); 
      }
      _onLoadEnd() {
@@ -66,17 +66,17 @@ export default class IconButton extends Component {
        const { type } = this.props;
        if (type === 'P'){
          return {
-           weight: 'Weight:34200_lbs',
-           type: 'Type:Power_Only',
-           dh: 'Deadhead:100_Miles',
-           time: "Pickup_Date:06/14/2019_12:00-18:00"
+           weight: 'Weight:_34200_lbs',
+           type: 'Type:_Power_Only',
+           dh: 'Deadhead:_100_Miles',
+           time: "Pickup_Date:_06/14/2019_12:00-18:00"
          }
        }
         return {
-          weight: 'Weight:34200_lbs',
-          type: 'Type:Power_Only',
-          dh: 'Deadhead:50_Miles',
-          time: 'Delivery_Date:06/14/2019_12:00-18:00'
+          weight: 'Weight:_34200_lbs',
+          type: 'Type:_Power_Only',
+          dh: 'Deadhead:_50_Miles',
+          time: 'Delivery_Date:_06/14/2019_12:00-18:00'
         }
      }
 
@@ -97,7 +97,7 @@ export default class IconButton extends Component {
               onLoadStart={this._onLoadStart}
               onLoadEnd={this._onLoadEnd}
               onError={this._onError}/>
-          <ViroFlexView style={{flexDirection: 'column'}}  rotation={[0, this.props.rotation.y, 0]} width={0.125} height={0.125} position={[this.props.position.x, this.props.position.y + 0.1, this.props.position.z]} backgroundColor='black'  visible={this.state.visible}>
+          <ViroFlexView style={{flexDirection: 'column'}} rotation={[0, this.props.rotation.y, 0]} width={0.15} height={0.125} position={[this.props.position.x, this.props.position.y + 0.1, this.props.position.z]} backgroundColor='#00ff00'  visible={this.state.visible}>
             <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorRed}>
               <ViroText 
                   text={loadInfo.time} 
@@ -119,7 +119,7 @@ export default class IconButton extends Component {
                 style={[styles.helloWorldTextStyle, setColor]} 
                 />
             </ViroFlexView>  
-            <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorBlack}>
+            <ViroFlexView backgroundColor='white' style={[styles.rowStyle, {marginBottom: 3}]} onClick={this.changeColorBlack}>
             <ViroText 
                 text={loadInfo.type} 
                 scale={[.05, .05, .05]} 
@@ -134,6 +134,8 @@ export default class IconButton extends Component {
 
 ViroAnimations.registerAnimations({
   loopRotate:{properties:{rotateY:"+=45"}, duration:1000},
+  scaleViroText:{properties:{scaleX:1, scaleY:1, scaleZ:1,},
+                duration: 500, easing: "bounce"}
 });
 
 ViroMaterials.createMaterials({
@@ -145,11 +147,13 @@ ViroMaterials.createMaterials({
   var styles = StyleSheet.create({
     rowStyle:{
       flex:1,
-      margin:2,
+      marginTop: 3,
+      marginLeft: 5,
+      marginRight: 5,
     },
   
     helloWorldTextStyle: {
-      fontFamily: 'Arial',
+
       fontSize: 14,
       textAlignVertical: 'center',
       textAlign: 'center',

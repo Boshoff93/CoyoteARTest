@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { View, Modal, FlatList, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Modal, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 import { ViroARSceneNavigator } from 'react-viro';
 
@@ -30,19 +30,8 @@ class ExampleItem {
 }
 
 const Examples = [
-  new ExampleItem('Land Grab', LandGrab),
+  new ExampleItem('CoyoteAR Map', LandGrab),
 ];
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 0.75,
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 class App extends React.Component {
   constructor (props) {
@@ -50,12 +39,14 @@ class App extends React.Component {
 
     this.state = {
       activeExample: -1,
-      locationType: 0
+      locationType: 0,
+      weather: false
     };
 
     this.renderItem = this.renderItem.bind(this);
     this.onBack = this.onBack.bind(this);
     this.onPress = this.onPress.bind(this);
+    this.toggleWeather = this.toggleWeather.bind(this);
   }
 
   onBack () {
@@ -69,10 +60,15 @@ class App extends React.Component {
   onPress() {
     this.setState({
       locationType: this.state.locationType === 0 ? 1 : 0
-    }, () => {
-      console.log(this.state);
     })
   }
+
+  toggleWeather() {
+    this.setState({
+      weather: !this.state.weather
+    })
+  }
+
   renderItem ({ item, index }) {
     return (
       <ListItem
@@ -87,26 +83,34 @@ class App extends React.Component {
 
     const leftNavComponent = {
       icon: 'keyboard-backspace',
-      color: 'white',
+      color: 'black',
       onPress: this.onBack,
     };
 
-    const locationType = this.state.locationType;
-    console.log(locationType);
+    const {locationType, weather} = this.state;
+    
     return (
       <Modal visible={isVisible} style={styles.container} onRequestClose={this.onBack} animationType='slide'>
-        <View style={{position:'absolute', zIndex: 3, left:75, right:75, top:75,}}>
-          <Button onPress={this.onPress} style={{flex: 1, textAlign: 'center'}} title={this.state.locationType === 0 ? "Chicago, IL (Pickup)" : "Seattle, WA (Delivery)"}/>
+        <View style={[styles.button, {top:88}]}>
+          <TouchableOpacity onPress={this.onPress} style={styles.weather}>
+           <Text>{locationType === 0 ? "CHI, IL (P)" : "SEA, WA (D)"}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.button, {top:144}]}>
+          <TouchableOpacity onPress={this.toggleWeather} style={styles.weather}>
+            <Text>{weather === true ? "Weather (ON)" : "Weather (OFF)"}</Text>
+          </TouchableOpacity>
         </View>
         <Header
+          backgroundColor={"#00ff00"}
           leftComponent={leftNavComponent}
-          centerComponent={{ text: activeExample && activeExample.label, style: styles.headerText }}
-          style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
+          centerComponent={{ text: "CoyoteAR", style: styles.headerText }}
+          style={styles.headerStyle} />
         {isVisible ? (
             <ViroARSceneNavigator
               style={styles.container}
               initialScene={{ scene: activeExample.SceneComponent}}
-              viroAppProps={this.state.locationType}
+              viroAppProps={[this.state.locationType, this.state.weather]}
               apiKey={VIRO_API_KEY} />
         ) : null}
       </Modal>
@@ -116,7 +120,7 @@ class App extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <Header centerComponent={{ text: 'Mapbox AR', style: styles.headerText }} />
+        <Header backgroundColor={"#00ff00"} centerComponent={{ text: "CoyoteAR", style: styles.headerText }} />
 
         <View style={styles.container}>
           <FlatList
@@ -133,3 +137,34 @@ class App extends React.Component {
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  headerStyle: {
+    position: 'absolute',
+    top: 0, 
+    left: 0, 
+    right: 0
+  },
+  container: {
+    flex: 0.75,
+  },
+  headerText: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  button: {
+    position:'absolute',
+    zIndex: 3, 
+    left:16, 
+    borderRadius: 16
+  },
+  weather: {
+    borderRadius: 16, 
+    borderWidth:1, 
+    padding: 8, 
+    backgroundColor: '#00ff00', 
+    flex: 1, 
+    textAlign: 'center'
+  }
+});
