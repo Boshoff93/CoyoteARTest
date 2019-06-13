@@ -7,5 +7,11 @@
 - react-native start --reset-cache
 - react-native run-android --variant=gvrDebug
 
+## Generate Release APK
+cd into \RNMapboxARDemo\android\
+run command: gradlew assembleGvrRelease
+cd into \RNMapboxARDemo\android\app\build\outputs\apk
+run command to install on device: adb install app-gvr-release.apk
+
 ## Assets
 - Download Google Poly 3d obj files
