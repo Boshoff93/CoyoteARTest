@@ -40,13 +40,29 @@ class App extends React.Component {
     this.state = {
       activeExample: -1,
       locationType: 0,
-      weather: false
+      weather: false,
+      loadingChicago: true,
+      loadingSeattle: true
     };
 
     this.renderItem = this.renderItem.bind(this);
     this.onBack = this.onBack.bind(this);
     this.onPress = this.onPress.bind(this);
     this.toggleWeather = this.toggleWeather.bind(this);
+    this.onLoadSeattle = this.onLoadSeattle.bind(this);
+    this.onLoadChicago = this.onLoadChicago.bind(this);
+  }
+
+  onLoadChicago(){
+    this.setState({
+      loadingChicago: false
+    })
+  }
+
+  onLoadSeattle(){
+    this.setState({
+      loadingSeattle: false
+    })
   }
 
   onBack () {
@@ -87,7 +103,7 @@ class App extends React.Component {
       onPress: this.onBack,
     };
 
-    const {locationType, weather} = this.state;
+    const {locationType, weather, loadingChicago, loadingSeattle} = this.state;
     
     return (
       <Modal visible={isVisible} style={styles.container} onRequestClose={this.onBack} animationType='slide'>
@@ -101,6 +117,12 @@ class App extends React.Component {
             <Text>{weather === true ? "Weather (ON)" : "Weather (OFF)"}</Text>
           </TouchableOpacity>
         </View>
+        {loadingChicago && loadingSeattle && <View style={[styles.loading]}>
+            <Text style={{
+    left: 60, 
+    right: 50}}>Loading...</Text>
+        </View>
+        }
         <Header
           backgroundColor={"#00ff00"}
           leftComponent={leftNavComponent}
@@ -110,7 +132,7 @@ class App extends React.Component {
             <ViroARSceneNavigator
               style={styles.container}
               initialScene={{ scene: activeExample.SceneComponent}}
-              viroAppProps={[this.state.locationType, this.state.weather]}
+              viroAppProps={[this.state.locationType, this.state.weather, this.onLoadChicago, this.onLoadSeattle]}
               apiKey={VIRO_API_KEY} />
         ) : null}
       </Modal>
@@ -152,6 +174,17 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  loading:{
+    position:'absolute',
+    zIndex: 3, 
+    left:"25%",
+    right:"25%", 
+    top:"45%",
+    borderRadius: 16, 
+    borderWidth:1, 
+    padding: 8, 
+    backgroundColor: 'white',
   },
   button: {
     position:'absolute',

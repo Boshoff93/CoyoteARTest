@@ -1,5 +1,4 @@
 import React from 'react';
-import {TextInput, View} from 'react-native'
 import {
   ViroARScene,
   ViroAmbientLight,
@@ -26,7 +25,9 @@ class LandGrab extends React.Component {
     this.state = {
       scale: 0.005,
       text: 'City',
-      locationType: 0
+      locationType: 0,
+      chicagoTerrain: false,
+      seattleTerrain: false
     };
 
     this._onInitialized = this.onInitialized.bind(this);
@@ -34,6 +35,20 @@ class LandGrab extends React.Component {
     this.onPinch = this.onPinch.bind(this);
 
     this.chicago = this.chicago.bind(this);
+    this.onCreateEndChicago = this.onCreateEndChicago.bind(this);
+    this.onCreateEndSeattle = this.onCreateEndSeattle.bind(this);
+  }
+
+  onCreateEndChicago(){
+    const onLoadChicago = this.props.arSceneNavigator.viroAppProps[2];
+    onLoadChicago()
+    this.setState({chicagoTerrain: true})
+  }
+
+  onCreateEndSeattle(){
+    const onLoadSeattle = this.props.arSceneNavigator.viroAppProps[3];
+    onLoadSeattle()
+    this.setState({seattleTerrain: true})
   }
 
   onPinch (pitchState, scaleFactor, source) {
@@ -51,7 +66,6 @@ class LandGrab extends React.Component {
   }
 
   componentWillReceiveProps(props){
-    console.log("props",props);
     this.setState({
       locationType: props.arSceneNavigator.viroAppProps[0],
       weather: props.arSceneNavigator.viroAppProps[1]
@@ -59,8 +73,10 @@ class LandGrab extends React.Component {
   }
 
   render () {
+    const {chicagoTerrain, seattleTerrain, locationType} = this.state
     const snow = require("./snow.png")
     const rain = require("./rain.png")
+    const showComponents = chicagoTerrain && seattleTerrain
     return (
       <ViroARScene dragType='FixedToWorld' onPinch={this.onPinch} onRotate={() => console.log('ROTATE')}>
         {this.state.weather && <ViroParticleEmitter
@@ -69,7 +85,7 @@ class LandGrab extends React.Component {
           run={true}
           
           image={{
-            source: this.state.locationType === 0 ? snow : rain,                 
+            source: locationType === 0 ? snow : rain,                 
             height:0.5,
             width:0.5,
           }}
@@ -88,22 +104,30 @@ class LandGrab extends React.Component {
                         shadowNearZ={2}
                         shadowFarZ={9}
                         castsShadow={true} />
-        <IconButton type={this.state.locationType === 0 ? 'P' : 'D'} text={this.state.text} position={{x: 0, y:-0.2, z: -0.25}} rotation={{y: 0,}}/>
-        <ViroNode visible={this.state.locationType === 0 }>
+        <IconButton 
+          type={locationType === 0 ? 'P' : 'D'}
+          text={this.state.text} 
+          position={{x: 0, y:-0.2, z: -0.25}} 
+          rotation={{y: 0}}
+          showIcon={showComponents}
+        />
+        <ViroNode visible={ showComponents && locationType === 0 }>
           <MapboxAR.Terrain
             draggable
             id='coolTerrain'
             sampleSize={3}
             scale={this.state.scale}
-            bbox={ this.chicago()}  />
+            bbox={ this.chicago()} 
+            onCreateEnd={this.onCreateEndChicago} />
         </ViroNode>
-        <ViroNode visible={this.state.locationType === 1 }>
+        <ViroNode visible={showComponents && locationType === 1 }>
           <MapboxAR.Terrain
             draggable
             id='coolTerrain'
             sampleSize={3}
             scale={this.state.scale}
-            bbox={ this.seattle()}  />
+            bbox={ this.seattle()} 
+            onCreateEnd={this.onCreateEndSeattle} />
         </ViroNode> 
       </ViroARScene>
     )

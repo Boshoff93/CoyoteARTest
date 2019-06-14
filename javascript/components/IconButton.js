@@ -20,7 +20,7 @@ export default class IconButton extends Component {
       super(props);
   
       this.state = {
-        visible: true,
+        visible: false,
         color: 'black'
       };
   
@@ -30,14 +30,15 @@ export default class IconButton extends Component {
       this._onError = this._onError.bind(this);
       this.changeColorRed = this.changeColorRed.bind(this);
       this.changeColorBlack = this.changeColorBlack.bind(this);
+      this.changeColorBlue = this.changeColorBlue.bind(this);
+      this.changeColorGreen = this.changeColorGreen.bind(this);
       this.getType = this.getType.bind(this);
     }
 
     onPress() {
         this.setState({
           visible: !this.state.visible
-        })
-        console.log("print"); 
+        }) 
       }
     
       changeColorRed() {
@@ -49,6 +50,18 @@ export default class IconButton extends Component {
       changeColorBlack() {
         this.setState({
           color: 'black',
+        })
+      }
+
+      changeColorBlue() {
+        this.setState({
+          color: 'blue' ,
+        })
+      }
+    
+      changeColorGreen() {
+        this.setState({
+          color: 'green',
         })
       }
 
@@ -76,15 +89,16 @@ export default class IconButton extends Component {
           weight: 'Weight:_34200_lbs',
           type: 'Type:_Power_Only',
           dh: 'Deadhead:_50_Miles',
-          time: 'Delivery_Date:_06/14/2019_12:00-18:00'
+          time: 'Delivery_Date:_06/16/2019_5:00-14:00'
         }
      }
 
      render() {
+        const {showIcon} = this.props; 
         const setColor = {color: this.state.color}
         const loadInfo = this.getType();
         return (
-        <ViroNode> 
+        <ViroNode visible={showIcon}> 
           <Viro3DObject 
               animation={{name:'loopRotate', run:true, loop:true}} 
               onClick={this.onPress} 
@@ -97,7 +111,7 @@ export default class IconButton extends Component {
               onLoadStart={this._onLoadStart}
               onLoadEnd={this._onLoadEnd}
               onError={this._onError}/>
-          <ViroFlexView style={{flexDirection: 'column'}} rotation={[0, this.props.rotation.y, 0]} width={0.15} height={0.125} position={[this.props.position.x, this.props.position.y + 0.1, this.props.position.z]} backgroundColor='#00ff00'  visible={this.state.visible}>
+          <ViroFlexView style={{flexDirection: 'column'}} rotation={[0, this.props.rotation.y, 0]} width={0.15} height={0.125} position={[this.props.position.x, this.props.position.y + 0.1, this.props.position.z]} backgroundColor='black'  visible={this.state.visible}>
             <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorRed}>
               <ViroText 
                   text={loadInfo.time} 
@@ -112,14 +126,14 @@ export default class IconButton extends Component {
                 style={[styles.helloWorldTextStyle, setColor]} 
               />
             </ViroFlexView> 
-            <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorBlack}>
+            <ViroFlexView backgroundColor='white' style={styles.rowStyle} onClick={this.changeColorBlue}>
             <ViroText 
                 text={loadInfo.dh} 
                 scale={[.05, .05, .05]} 
                 style={[styles.helloWorldTextStyle, setColor]} 
                 />
             </ViroFlexView>  
-            <ViroFlexView backgroundColor='white' style={[styles.rowStyle, {marginBottom: 3}]} onClick={this.changeColorBlack}>
+            <ViroFlexView backgroundColor='white' style={[styles.rowStyle, {marginBottom: 3}]} onClick={this.changeColorGreen}>
             <ViroText 
                 text={loadInfo.type} 
                 scale={[.05, .05, .05]} 

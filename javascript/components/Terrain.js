@@ -184,7 +184,6 @@ class Terrain extends React.Component {
     const width = Math.abs(lowerRight[0] - upperLeft[0]);
 
     const tilesToLoad = tiles.map((tile, index) => {
-      console.log("Logging", tile);
       return {
         url: `${BASE_RGB_TILE_URI}/${tile[2]}/${tile[0]}/${tile[1]}.pngraw?access_token={ACCESS_TOKEN}`,
         px: (tile[0] - upperLeftTile[0]) * TILE_SIZE - offsets[0],
